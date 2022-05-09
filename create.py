@@ -4,27 +4,21 @@ from conSettings import host,usuario,senha,db,port
 con = MySQLdb.connect(host,usuario,senha,db,port) # Faz a conexão
 c = con.cursor() # O cursor é necessário para realizar a query / Com o parâmetro MySQLdb.cursors.DictCursor ele retorna um dicionário em vez de uma tupla
 
-# Sintaxe do insert: INSERT INTO TABLE(FIELDS) VALUES(VALUES)
+# Sintaxe do CREATE: CREATE TABLE/DATABASE IF NOT EXISTS TABLE_NAME(COLUMN_NAME DATA_TYPE,...);
 
-def insert(values,table,fields = None):
+def createTable(table,values):
 
     global c, con
 
-    query = "INSERT INTO "+ table
+    query = "CREATE TABLE IF NOT EXISTS " + table + " ("
 
-    if(fields): 
-        query = query + " (" + fields + ") "
-    
-    query = query + " VALUES " + ",".join(["(" + v + ")" for v in values])
+    query = query + ", ".join([ v  for v in values]) + ");"
 
     print(query)
 
     c.execute(query) # Executa a query
     con.commit() # Garante que a execução aconteça
 
-values = [" DEFAULT, 'Michael Jackson', '1958-08-29', '11987654321' ", # Exemplo de insert
-          "DEFAULT, 'Arlete Vizinha', '1800-02-11', '25836914731' "]
+values = ["ID INT PRIMARY KEY ", "NOME CHAR(30)", "CPF CHAR(11)", "IDADE INT"]
 
-
-
-insert(values,"ALUNOS")
+createTable("ALUNOS",values)

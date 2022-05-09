@@ -1,5 +1,5 @@
 import MySQLdb  # Módulo para conectar com o MySQL
-from conParameters import host,usuario,senha,db,port
+from conSettings import host,usuario,senha,db,port
 
 con = MySQLdb.connect(host,usuario,senha,db,port) # Faz a conexão
 c = con.cursor() # O cursor é necessário para realizar a query / Com o parâmetro MySQLdb.cursors.DictCursor ele retorna um dicionário em vez de uma tupla
@@ -15,8 +15,8 @@ def update(sets, table, where = None):
     if(where):
         query = query + " WHERE " + where
 
-    c.execute(query)
-    con.commit()
+    #c.execute(query)
+    #con.commit()
     print("Consulta concluida: ",query)
 
 update({"NOME":"Arlette Vizinha"}, "ALUNOS", "ID = 5") # Exemplo = update({"Coluna":"Conteúdo"}, "Tabela", "Where")
